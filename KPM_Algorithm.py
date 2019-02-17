@@ -6,12 +6,10 @@ def naiiveMatch(text, pattern):
     n = len(text)
     m = len(pattern)
     for s in range(n-m+1):
-        matches = True
         for i in range(m):
             if pattern[i] != text[s+i]:
-                matches = False
                 break
-        if matches:
+        else:
             Q.put(s)
     return Q
 
@@ -53,8 +51,6 @@ def KMP(text, pattern):
 
 with open("testDocument.txt", 'r') as testFile:
     stringify = testFile.read()
-    # word = stringify.split(' ')
-    # print(len(word))
     t0 = time.time()
     q1 = KMP(stringify, "the")
     t1 = time.time()
