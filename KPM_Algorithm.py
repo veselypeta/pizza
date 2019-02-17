@@ -1,6 +1,16 @@
 import queue
 import time
 
+def timer(func):
+    def f(*args, **kwargs):
+        before = time.time()
+        rv = func(*args, **kwargs)
+        after = time.time()
+        print("The function {} has exectution Time = {}".format(func.__name__, after - before))
+        return rv
+    return f
+
+@timer
 def naiiveMatch(text, pattern):
     Q = queue.Queue()
     n = len(text)
@@ -14,7 +24,7 @@ def naiiveMatch(text, pattern):
     return Q
 
             
-
+@timer
 def preprocess(pattern):
     # Longest Prexif that is also a suffix
     m = len(pattern)
@@ -32,6 +42,7 @@ def preprocess(pattern):
             i = suffix_table[i-1]
     return suffix_table
 
+@timer
 def KMP(text, pattern):
     suffix_table = preprocess(pattern)
     n = len(text)
@@ -51,7 +62,5 @@ def KMP(text, pattern):
 
 with open("testDocument.txt", 'r') as testFile:
     stringify = testFile.read()
-    t0 = time.time()
-    q1 = KMP(stringify, "the")
-    t1 = time.time()
-    print("Execution time is {}".format(t1 - t0))
+    q1 = KMP(stringify, "hello")
+    q2 = naiiveMatch(stringify, "hello")
